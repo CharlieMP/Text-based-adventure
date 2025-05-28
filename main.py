@@ -1,5 +1,6 @@
 from cave import Cave
 
+
 cavern = Cave("cavern")
 cavern.set_description("A dank and dirty cave")
 dungeon1 = Cave("Dungeon chamber 1")
