@@ -1,5 +1,5 @@
 from cave import Cave
-
+from character import Enemy
 
 cavern = Cave("cavern")
 cavern.set_description("A dank and dirty cave")
@@ -69,7 +69,10 @@ bridge.link_cave(dungeon3, "east")
 dungeon3.link_cave(bridge, "west")
 dungeon3.link_cave(wumpusLair, "east")
 
-
+harry = Enemy("Harry", "A smelly Wumpus")
+harry.set_conversation("What, who are you? get out of my lair!")
+harry.set_weakness("vegemite")
+cavern.set_character(harry)
 
 
 current_cave = startcave
@@ -77,5 +80,16 @@ while True:
     print("\n")
     current_cave.describe()
     current_cave.get_details()
+    inhabitant = current_cave.get_character()
+    if inhabitant is not None:
+        inhabitant.describe()
     command = input("> ")
-    current_cave = current_cave.move(command)
+    if command == "talk":
+        if inhabitant is not None:
+            inhabitant.talk()
+    elif command == "fight":
+        print("What will you fight with?")
+        fight_with = input()
+        if inhabitant.fight
+    else:
+        current_cave = current_cave.move(command)
