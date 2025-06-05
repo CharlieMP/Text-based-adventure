@@ -1,8 +1,10 @@
 class Character():
+    enemies_to_defeat = 0
     def __init__(self, char_name, char_description):
         self.name = char_name
         self.description = char_description
         self.conversation = None
+        Enemy.enemies_to_defeat = Enemy.enemies_to_defeat + 1
 
     def describe(self):
         print(self.name + " is here!")

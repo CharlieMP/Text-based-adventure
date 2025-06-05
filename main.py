@@ -71,7 +71,7 @@ bridge.link_cave(crossroads, "south")
 bridge.link_cave(dungeon3, "east")
 dungeon3.link_cave(bridge, "west")
 dungeon3.link_cave(wumpusLair, "east")
-
+wumpusLair.link_cave(dungeon3, "west")
 
 vegemite = Item("Vegemite")
 vegemite.set_description("A Wumpus' worst nightmare")
@@ -127,14 +127,26 @@ while dead == False:
             print("There is no one here to pat")
     elif command == "fight":
         if inhabitant is not None:
-            print("What will you fight with?")
-            fight_with = input()
-            if inhabitant.fight(fight_with) == True:
-                print("Bravo hero, you won the fight!")
-                current_cave.set_character(None)
+            if isinstance(inhabitant, Enemy):
+                print("What will you fight with?")
+                fight_with = input()
+                for item in bag:
+                    if fight_with.lower() == item.lower():
+                        if inhabitant.fight(fight_with) == True:
+                            Enemy.enemies_to_defeat = Enemy.enemies_to_defeat - 1
+                            if Enemy.enemies_to_defeat == 0:
+                                print("Congratulations, you have survived another adventure!")
+                                dead = True
+                            else:
+                                print("Bravo hero, you won the fight!")
+                                current_cave.set_character(None)
+                        else:
+                            print("Scurry home, you lost the fight\nThats the end of the game")
+                            dead = True                        
+                else:
+                    print("You dont have a " + fight_with)
             else:
-                print("Scurry home, you lost the fight\nThats the end of the game")
-                dead = True
+                print("They dont want to fight you")
         else:
             print("There is no one here to fight with")
     elif command == "take":
@@ -142,5 +154,7 @@ while dead == False:
             print("You put the " + item.get_name() + " in your bag")
             bag.append(item.get_name())
             current_cave.set_item(None)
+        else:
+            print("Theres nothing here to take")
     else:
         current_cave = current_cave.move(command)
