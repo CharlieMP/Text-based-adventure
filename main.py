@@ -7,7 +7,7 @@ dead = False
 cavern = Cave("cavern")
 cavern.set_description("A dank and dirty cave")
 dungeon1 = Cave("Dungeon chamber 1")
-dungeon1.set_description("A large cave with a rack")
+dungeon1.set_description("A large cave with bones strewn everywhere")
 grotto = Cave("grotto")
 grotto.set_description("A small cave with ancient graffiti")
 startcave = Cave("Start cave")
