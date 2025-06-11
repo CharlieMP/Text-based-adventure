@@ -90,7 +90,7 @@ jokebook.set_description("A book full of bad skeleton puns")
 puddle.set_item(jokebook)
 
 rock = Item("Rock")
-rock.set_description("A smooth round rock")
+rock.set_description("A smooth round rock, perfect for squashing someone")
 cavern.set_item(rock)
 
 bag = []
@@ -108,6 +108,16 @@ dungeon1.set_character(skelebones)
 jushroom = Friend("Weird ass Jushroom", "A weird little mushroom guy")
 jushroom.set_conversation("dont listen to the mustard sprouts, i've heard that they're irradiated")
 mushroomTunnel.set_character(jushroom)
+
+mark = Enemy("Mark", "An incredibly small leprechaun")
+mark.set_conversation("Please dont squash me, im very frail")
+mark.set_weakness("rock")
+sump.set_character(mark)
+
+drake = Enemy("Cave Drake", "A smooth scaled drake with large eyes that are sensetive to light")
+drake.set_conversation("You can't see me but i can see you!")
+drake.set_weakness("torch")
+dungeon3.set_character(drake)
 
 
 
@@ -144,21 +154,20 @@ while dead == False:
             if isinstance(inhabitant, Enemy):
                 print("What will you fight with?")
                 fight_with = input().lower()
-                for item in bag:
-                    if fight_with.lower() == item.lower():
-                        if inhabitant.fight(fight_with) == True:
-                            Enemy.enemies_to_defeat = Enemy.enemies_to_defeat - 1
-                            if Enemy.enemies_to_defeat == 0:
-                                print("Congratulations, you have survived another adventure!")
-                                dead = True
-                            else:
-                                print("Bravo hero, you won the fight!")
-                                current_cave.set_character(None)
+                if fight_with in bag:
+                    if inhabitant.fight(fight_with) == True:
+                        Enemy.enemies_to_defeat = Enemy.enemies_to_defeat - 1
+                        if Enemy.enemies_to_defeat == 0:
+                            print("Congratulations, you have survived another adventure!")
+                            dead = True
                         else:
-                            print("Scurry home, you lost the fight\nThats the end of the game")
-                            dead = True                        
+                            print("Bravo hero, you won the fight!")
+                            current_cave.set_character(None)
                     else:
-                        print("You dont have a " + fight_with)
+                        print("Scurry home, you lost the fight\nThats the end of the game")
+                        dead = True                        
+                else:
+                    print("You dont have a " + fight_with)
             else:
                 print("They dont want to fight you")
         else:
