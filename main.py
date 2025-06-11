@@ -11,7 +11,7 @@ dungeon1.set_description("A large cave with a rack")
 grotto = Cave("grotto")
 grotto.set_description("A small cave with ancient graffiti")
 startcave = Cave("Start cave")
-startcave.set_description("You are in a small cave with one exit")
+startcave.set_description("You are in a small cave with a one way exit")
 mossyTunnel = Cave("mossy tunnel")
 mossyTunnel.set_description("A tunnel lined with a variety of different mosses")
 smallCliff = Cave("small cliff")
@@ -85,6 +85,10 @@ torch = Item("Torch")
 torch.set_description("A torch to light your way")
 dungeon1.set_item(torch)
 
+jokebook = Item("Jokebook")
+jokebook.set_description("A book full of bad skeleton puns")
+puddle.set_item(jokebook)
+
 rock = Item("Rock")
 rock.set_description("A smooth round rock")
 cavern.set_item(rock)
@@ -95,6 +99,16 @@ harry = Enemy("Harry", "A smelly Wumpus")
 harry.set_conversation("What, who are you? get out of my lair!")
 harry.set_weakness("vegemite")
 wumpusLair.set_character(harry)
+
+skelebones = Enemy("Skelebones", "A skeleton wearing a red cape with shoulder pads")
+skelebones.set_conversation("OH MY GOD IS THAT A HUMAN?")
+skelebones.set_weakness("jokebook")
+dungeon1.set_character(skelebones)
+
+jushroom = Friend("Weird ass Jushroom", "A weird little mushroom guy")
+jushroom.set_conversation("dont listen to the mustard sprouts, i've heard that they're irradiated")
+mushroomTunnel.set_character(jushroom)
+
 
 
 josephine = Friend("Josephine", "A friendly bat")
@@ -129,7 +143,7 @@ while dead == False:
         if inhabitant is not None:
             if isinstance(inhabitant, Enemy):
                 print("What will you fight with?")
-                fight_with = input()
+                fight_with = input().lower()
                 for item in bag:
                     if fight_with.lower() == item.lower():
                         if inhabitant.fight(fight_with) == True:
@@ -143,8 +157,8 @@ while dead == False:
                         else:
                             print("Scurry home, you lost the fight\nThats the end of the game")
                             dead = True                        
-                else:
-                    print("You dont have a " + fight_with)
+                    else:
+                        print("You dont have a " + fight_with)
             else:
                 print("They dont want to fight you")
         else:
@@ -152,7 +166,7 @@ while dead == False:
     elif command == "take":
         if item is not None:
             print("You put the " + item.get_name() + " in your bag")
-            bag.append(item.get_name())
+            bag.append(item.get_name().lower())
             current_cave.set_item(None)
         else:
             print("Theres nothing here to take")
