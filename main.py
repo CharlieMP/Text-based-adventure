@@ -3,6 +3,7 @@ from character import Enemy
 from character import Friend
 from item import Item
 
+#creation of caverns
 dead = False
 cavern = Cave("cavern")
 cavern.set_description("A dank and dirty cave")
@@ -37,6 +38,7 @@ dungeon3.set_description("A long room with hair all over the floor")
 wumpusLair = Cave("Wumpus lair")
 wumpusLair.set_description("The lair of the mighty Wumpus!")
 
+#linking all caverns according to diagram
 startcave.link_cave(cavern, "north")
 cavern.link_cave(mossyTunnel, "west")
 cavern.link_cave(smallCliff, "east")
@@ -73,12 +75,14 @@ dungeon3.link_cave(bridge, "west")
 dungeon3.link_cave(wumpusLair, "east")
 wumpusLair.link_cave(dungeon3, "west")
 
+
+#creation of items
 vegemite = Item("Vegemite")
 vegemite.set_description("A Wumpus' worst nightmare")
 grotto.set_item(vegemite)
 
 bone = Item("Bone")
-bone.set_description("A worryingly large femur bone")
+bone.set_description("A worryingly large femur bone, probably useless")
 dungeon2.set_item(bone)
 
 torch = Item("Torch")
@@ -97,8 +101,10 @@ rock = Item("Rock")
 rock.set_description("A smooth round rock, perfect for squashing someone")
 cavern.set_item(rock)
 
+#bag list to store items
 bag = []
 
+#creation of enemies
 harry = Enemy("Harry", "A smelly Wumpus")
 harry.set_conversation("What, who are you? get out of my lair!")
 harry.set_weakness("vegemite")
@@ -132,9 +138,11 @@ josephine = Friend("Josephine", "A friendly bat")
 josephine.set_conversation("Gidday")
 grotto.set_character(josephine)
 
-
+#beginning of mainline
 current_cave = startcave
+#plays while variable 'dead' equals false
 while dead == False:
+    #describes everything in the current cave
     print("\n")
     current_cave.describe()
     current_cave.get_details()
@@ -145,6 +153,7 @@ while dead == False:
     if inhabitant is not None:
         inhabitant.describe()
     command = input("> ")
+    #checks for different commands
     if command == "talk":
         if inhabitant is not None:
             inhabitant.talk()
@@ -157,15 +166,21 @@ while dead == False:
         else:
             print("There is no one here to pat")
     elif command == "fight":
+        #checks if there is a character in the cave
         if inhabitant is not None:
+            #checks if the character is an enemy or not
             if isinstance(inhabitant, Enemy):
                 print("What will you fight with?")
                 fight_with = input().lower()
+                #checks if the item chosen is in the player's bag
                 if fight_with in bag:
+                    #checks if the item selected is the enemy's weakness
                     if inhabitant.fight(fight_with) == True:
                         Enemy.enemies_to_defeat = Enemy.enemies_to_defeat - 1
+                        #checks if all enemies have bene defeated
                         if Enemy.enemies_to_defeat == 0:
                             print("Congratulations, you have survived another adventure!")
+                            #sets variable 'dead' to true to end the gameplay loop
                             dead = True
                         else:
                             print("Bravo hero, you won the fight!")
@@ -181,10 +196,12 @@ while dead == False:
             print("There is no one here to fight with")
     elif command == "take":
         if item is not None:
+            #adds item in current cave to bag and removes it from the current cave
             print("You put the " + item.get_name() + " in your bag")
             bag.append(item.get_name().lower())
             current_cave.set_item(None)
         else:
             print("Theres nothing here to take")
     else:
+        #else move the character in the direction that they choose
         current_cave = current_cave.move(command)
