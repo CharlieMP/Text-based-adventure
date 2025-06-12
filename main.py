@@ -89,6 +89,10 @@ jokebook = Item("Jokebook")
 jokebook.set_description("A book full of bad skeleton puns")
 puddle.set_item(jokebook)
 
+mushroom = Item("Mushroom")
+mushroom.set_description("A mushroom with white spots")
+mushroomTunnel.set_item(mushroom)
+
 rock = Item("Rock")
 rock.set_description("A smooth round rock, perfect for squashing someone")
 cavern.set_item(rock)
@@ -119,7 +123,10 @@ drake.set_conversation("You can't see me but i can see you!")
 drake.set_weakness("torch")
 dungeon3.set_character(drake)
 
-
+john = Enemy("John enemy", "An enemy named John")
+john.set_conversation("Oh this? its just a rash I got from my mushroom allergy")
+john.set_weakness("mushroom")
+dungeon2.set_character(john)
 
 josephine = Friend("Josephine", "A friendly bat")
 josephine.set_conversation("Gidday")
